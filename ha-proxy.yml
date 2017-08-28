@@ -1,0 +1,16 @@
+--- # Ha-proxy configure using Ansible
+- hosts: master
+  remote_user: root
+  roles:
+  - { role: ha-proxy }
+- hosts: nodes
+  remote_user: root
+  roles:
+  - { role: apache }
+- hosts: master
+  remote_user: root
+  tasks:
+  - name: Verify LoadBalancing
+    shell: for i in {1..2}; do curl 192.168.56.102; done
+    register: result
+  - debug: var=result["stdout_lines"]

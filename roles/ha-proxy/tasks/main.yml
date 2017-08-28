@@ -1,0 +1,6 @@
+--- # ha-proxy role
+- name: HA-Proxy | Install HA-Proxy
+  yum: name=haproxy state=latest update_cache=yes
+- name: HA-Proxy | Update HA-Proxy Config
+  template: src=templates/haproxy.cfg dest=/etc/haproxy/haproxy.cfg backup=yes
+  notify: HA-Proxy | Restart HA-Proxy

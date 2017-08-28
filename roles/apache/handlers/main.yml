@@ -1,0 +1,4 @@
+--- 
+- name: apache
+  systemd: name=httpd enabled=yes state=restarted
+

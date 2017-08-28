@@ -1,0 +1,6 @@
+--- # install Apache
+- name: apache | Install Apache
+  yum: name=httpd state=latest
+- name: apache | index file content
+  shell: hostname > /var/www/html/index.html
+  notify: apache
