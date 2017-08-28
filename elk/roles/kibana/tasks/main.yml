@@ -1,0 +1,7 @@
+--- # Kibana setup
+- name: Add Kibana Repo
+  template: src=kibana.repo dest=/etc/yum.repos.d/kibana.repo
+- name: Install Kibana
+  yum: name=kibana state=latest
+  notify: Restart Kibana
+

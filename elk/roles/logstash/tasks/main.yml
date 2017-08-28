@@ -1,0 +1,18 @@
+--- # Logstash setup
+- name: Add Logstash Repo
+  template: src=templates/logstash.repo dest=/etc/yum.repos.d/logstash.repo
+- name: Install Logstash
+  yum: name=logstash state=latest
+  notify: Restart Logstash
+- name: Creating certs directories for SSL
+  file: path=/etc/pki/tls/certs state=directory
+- name: Adding Cert
+  shell: "openssl req -config /etc/pki/tls/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout /etc/pki/tls/private/logstash-forwarder.key -out /etc/pki/tls/certs/logstash-forwarder.crt"
+- name: creating conf.d directory 
+  file: path=/etc/logstash/conf.d state=directory
+- name: Add input file
+  template: src=templates/input.conf dest=/etc/logstash/conf.d/input.conf owner=root group=root mode=0644
+- name: Add output file
+  template: src=templates/output.conf dest=/etc/logstash/conf.d/output.conf owner=root group=root mode=0644
+- name: Add filter file
+  template: src=templates/filter.conf dest=/etc/logstash/conf.d/filter.conf owner=root group=root mode=0644
